@@ -1,0 +1,89 @@
+spring:
+  application:
+    name: auth-service
+  security:
+    oauth2:
+      client:
+        registration:
+            keycloak:
+              client-id: qeats-app
+              client-secret: zQxv2S2UM9hALb3rjz5cbqVN1yTGVbOd
+              redirectUri: "{baseUrl}/login/oauth2/code/keycloak"
+              authorization-grant-type: authorization_code
+              scope: openid, profile, email
+        provider:
+          keycloak:
+            realm: QEats
+            issuer-uri: http://localhost:8003/realms/QEats
+            authorizationUri: http://localhost:8003/realms/QEats/protocol/openid-connect/auth
+            tokenUri: http://localhost:8003/realms/QEats/protocol/openid-connect/token
+            userInfoUri: http://localhost:8003/realms/QEats/protocol/openid-connect/userinfo
+            jwkSetUri: http://localhost:8003/realms/QEats/protocol/openid-connect/certs
+            logoutUri: http://localhost:8003/realms/QEats/protocol/openid-connect/logout
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6479
+  kafka:
+#    bootstrap-servers:
+#      - localhost:29092
+    consumer:
+      bootstrap-servers: localhost:29092
+      auto-offset-reset: earliest
+      group-id: qeats-auth-service-app-group
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    security:
+      protocol: PLAINTEXT
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientAutoConfiguration
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: qeats-app
+      client-secret: zQxv2S2UM9hALb3rjz5cbqVN1yTGVbOd
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+#  instance:
+#    preferIpAddress: true
+#    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+#    leaseRenewalIntervalInSeconds: 5
+#    leaseExpirationDurationInSeconds: 10
+
+
+server:
+  port: 8081
+
+
+
+logging:
+  level:
+#    org:
+#      springframework: DEBUG
+
+    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.web.server: DEBUG
+    org.springframework.web: DEBUG
+
+    root: info
+  pattern:
+    console: ${logpattern-console:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}) - %msg%n}
+  color:
+    console:
+      highlight:
+        FATAL: "red blink"
+        ERROR: "red"
+        WARN: "yellow bold"
+        INFO: "green"
+        DEBUG: "blue"
+        TRACE: "magenta"
+
+jwt:
+  secret-key: ioihIOHuidfhyuiYbudOhdTdjInTnPanuyunBhysuUbsoJbSDaubsdifuUZBdiszuBDUIebs
+

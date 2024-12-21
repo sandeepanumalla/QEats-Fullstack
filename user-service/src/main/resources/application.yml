@@ -1,0 +1,81 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8003/realms/QEats/protocol/openid-connect/certs
+  application:
+    name: user-service
+
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/qeats_users
+    username: root
+    password: your_password
+#  data:
+#    r2dbc:
+#      repositories:
+#        enabled: true
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  sql:
+#    init:
+#      mode: ip
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+server:
+  error:
+    include-message: always
+
+  port: 8085
+logging:
+  level:
+
+    io:
+      r2dbc:
+        mysql: DEBUG
+    org:
+      springframework:
+        data:
+          r2dbc: DEBUG
+
+
+    dev:
+      qeats:
+        user_service:
+          repository=DEBUG:
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+
+openapi:
+  oauthFlow:
+    authorizationUrl: http://localhost:8003/realms/task-management/protocol/openid-connect/auth
+    tokenUrl: http://localhost:8003/realms/task-management/protocol/openid-connect/token
+
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: your-realm
+  client-id: admin-cli
+  client-secret: your-client-secret
+  admin-username: admin
+  admin-password: admin-password
+
+
+
+
+#keycloak.auth-server-url=http://localhost:8080/auth
+#keycloak.realm=your-realm
+#keycloak.client-id=admin-cli
+#keycloak.client-secret=your-client-secret
+#keycloak.admin-username=admin
+#keycloak.admin-password=admin-password

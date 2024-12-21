@@ -1,0 +1,12 @@
+# Git ignore file 
+
+.idea/
+.vscode/
+
+playground/
+search-service/
+api-service/
+web.config
+
+frontend/node_modules/
+frontend/.idea/

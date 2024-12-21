@@ -1,0 +1,28 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8003/realms/QEats/protocol/openid-connect/certs
+  application:
+    name: restaurant-management-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/qeats_restaurant_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: your_password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: 8086
+logging:
+  level:
+    org.springframework.web.cors: DEBUG    # Logs CORS handling logic
+    org.springframework.web.filter.CorsFilter: DEBUG # Logs requests passing through CorsFilter
+    org.springframework.web.servlet: DEBUG # General request handling logs
+

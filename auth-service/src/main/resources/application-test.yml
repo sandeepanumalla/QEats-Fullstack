@@ -1,0 +1,16 @@
+spring:
+  data:
+    redis:
+      database: 0
+      host: localhost
+      port: 6479
+
+logging:
+  level:
+    org.springframework.data.redis: DEBUG
+eureka:
+  client:
+    enabled: false
+  instance:
+    enabled: false
+
