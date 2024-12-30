@@ -7,6 +7,3 @@ playground/
 search-service/
 api-service/
 web.config
-
-frontend/node_modules/
-frontend/.idea/

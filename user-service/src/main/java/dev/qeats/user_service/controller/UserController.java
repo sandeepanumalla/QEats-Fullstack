@@ -1,7 +1,9 @@
 package dev.qeats.user_service.controller;
 
 import dev.qeats.user_service.model.Address;
+import dev.qeats.user_service.request.CartRequestVO;
 import dev.qeats.user_service.response.AddressVO;
+import dev.qeats.user_service.response.CartResponseVO;
 import dev.qeats.user_service.response.UserProfileVO;
 import dev.qeats.user_service.service.impl.CartServiceImpl;
 import dev.qeats.user_service.service.impl.UserServiceImpl;
@@ -77,10 +79,28 @@ public class UserController {
         return ResponseEntity.ok("Addresses updated successfully");
     }
 
+    // GET /users/cart
+    @GetMapping("/user/{userId}/cart/{restaurantId}")
+    public Mono<ResponseEntity<CartResponseVO>> getAllUsersCart(@PathVariable("userId") String userId,
+    @PathVariable("restaurantId") String restaurantId
+    ) {
+        return cartService.getUserCart(userId, restaurantId)
+                .map(cart -> ResponseEntity.ok().body(cart))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    //POST /users/cart
     @PutMapping("/user/{userId}/profile")
-    public Mono<ResponseEntity<String>> updateUserProfile(@PathVariable String userId ,@Valid @RequestBody UserProfileVO userProfileVO) {
+    public Mono<ResponseEntity<String>> updateUserProfile(@PathVariable("userId") String userId, @Valid @RequestBody UserProfileVO userProfileVO) {
         return userService.updateUserProfile(userProfileVO)
                 .then(Mono.just(ResponseEntity.ok("Profile updated successfully")));
+    }
+
+
+    // PUT /user/{userId}/cart
+    @PutMapping("/user/{userId}/cart/{restaurantId}")
+    public Mono<ResponseEntity<String>> updateUserCart(@PathVariable("userId") String userId, @PathVariable("restaurantId") String restaurantId, @RequestBody CartRequestVO cartRequestVO) {
+        return cartService.updateUserCart(userId, restaurantId, cartRequestVO);
     }
 
 

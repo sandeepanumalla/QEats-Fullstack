@@ -1,5 +1,6 @@
 package dev.qeats.order_service.model;
 
+import dev.qeats.order_service.request.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,8 +27,13 @@ public class Order {
     private String orderTime;
     private String lastUpdateTime;
     private String expectedDeliveryTime;
+    private double shippingCharges;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> items;
-    private double amount;
+
+    private double totalAmount;
 }

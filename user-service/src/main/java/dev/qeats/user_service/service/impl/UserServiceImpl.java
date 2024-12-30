@@ -5,10 +5,12 @@ import dev.qeats.user_service.model.Cart;
 import dev.qeats.user_service.model.KeycloakUserInfo;
 import dev.qeats.user_service.model.User;
 import dev.qeats.user_service.repository.AddressRepository;
+import dev.qeats.user_service.repository.CartRepository;
 import dev.qeats.user_service.repository.UserRepository;
 import dev.qeats.user_service.request.UserRequestVo;
 import dev.qeats.user_service.response.AddressVO;
 import dev.qeats.user_service.response.UserProfileVO;
+import dev.qeats.user_service.service.CartService;
 import dev.qeats.user_service.service.UserService;
 import io.micrometer.observation.ObservationFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +35,17 @@ public class UserServiceImpl implements UserService {
     private DatabaseClient databaseClient;
     private final UserRepository userRepository;
 //    private final R2dbcEntityTemplate r2dbcEntityTemplate;
+    private final CartService cartService;
 
     private final WebClient webClient;
 
     public UserServiceImpl(UserRepository userRepository, WebClient webClient,
-                           AddressRepository addressRepository, ModelMapper modelMapper) {
+                           AddressRepository addressRepository, ModelMapper modelMapper, CartService cartService) {
         this.userRepository = userRepository;
         this.webClient = webClient;
         this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
+        this.cartService = cartService;
     }
 
     @Override
@@ -143,17 +147,22 @@ public class UserServiceImpl implements UserService {
         // Fetch user info from Keycloak or create a new user
         Mono<User> fetchOrCreateUserMono = userMono.switchIfEmpty(fetchAndCreateUserFromKeycloak(accessToken, userInfoUrl));
 
+
         // Fetch addresses as a list
         Mono<List<AddressVO>> addressesMono = addressRepository.findAll()
                 .map(address -> modelMapper.map(address, AddressVO.class)) // Map Address to AddressVO
                 .collectList(); // Collect all addresses into a List<AddressVO>
 
+
+
         // Build the UserProfileVO reactively
-        return fetchOrCreateUserMono.zipWith(addressesMono) // Combine user and addresses
+        return fetchOrCreateUserMono
+                .flatMap(user -> cartService.createCartForUser(userId)
+                        .thenReturn(user))
+                .zipWith(addressesMono) // Combine user and addresses
                 .map(tuple -> {
                     User user = tuple.getT1();
                     List<AddressVO> addressVOs = tuple.getT2();
-
                     System.out.println(addressVOs.size());
                     UserProfileVO userProfile = new UserProfileVO();
                     userProfile.setUserId(user.getId());

@@ -36,4 +36,7 @@ public class RestaurantRepositoryTest {
         Long ans = restaurantRepository.existsByUserIdAndRestaurantId("77055c49-2dfe-4aec-8f15-406a09289e34", 11L);
         assertEquals(1L, ans);
     }
+
 }
+
+

@@ -25,10 +25,13 @@ public class Cart {
     private String userId;
 
     @MappedCollection(idColumn = "cart_id") // Explicitly map the items relationship
+    @Transient
     private List<CartItem> items;
 
     @Column("total_cost")
     private double totalCost = 0.0;
+
+
 
     @Transient
     public void setTotalCost() {
@@ -40,6 +43,7 @@ public class Cart {
     @Transient
     public CartResponseVO toCartResponseVO(List<CartItemResponseVO> cartItemResponseVO) {
         CartResponseVO cartResponseVO = new CartResponseVO();
+        cartResponseVO.setUser(this.userId);
         cartResponseVO.setCartId(this.cartId);
         cartResponseVO.setItems(cartItemResponseVO);
         cartResponseVO.setTotalCost(this.totalCost);

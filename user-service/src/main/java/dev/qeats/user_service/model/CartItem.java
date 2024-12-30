@@ -26,6 +26,9 @@ public class CartItem {
     @Column("product_description")
     private String productDescription;
 
+    @Column("restaurant_id")
+    private String restaurantId;
+
     @Column("quantity")
     private int quantity;
 

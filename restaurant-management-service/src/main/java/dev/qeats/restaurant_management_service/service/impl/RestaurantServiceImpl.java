@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,6 +38,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
     @Override
+    @Transactional
     public RestaurantVO updateRestaurantDetails(Long restaurantId, RestaurantVO restaurantVO) {
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
         if (restaurantOptional.isEmpty()) {
@@ -69,6 +71,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                     // Existing address, fetch and update
                     Address existingAddress = addressRepository.findById(address.getId())
                             .orElseThrow(() -> new RuntimeException("Address not found with ID: " + address.getId()));
+//                    existingAddress.setId(0L);
                     existingAddress.setStreet(address.getStreet());
                     existingAddress.setCity(address.getCity());
                     existingAddress.setState(address.getState());
@@ -153,9 +156,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantVO addRestaurant(RestaurantVO restaurantVO) {
         Restaurant restaurant = modelMapper.map(restaurantVO, Restaurant.class);
         Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-//        addMenuToRestaurant(savedRestaurant.getId(), restaurantVO.getMenuItems());
-//        restaurantVO.getCuisines().forEach(cuisine -> cuisineService.addCuisineToRestaurant(savedRestaurant.getId(), cuisine));
-//        restaurantVO.getBranches().forEach(branch -> branchService.addBranch(savedRestaurant.getId(), branch));
+        addMenuToRestaurant(savedRestaurant.getId(), restaurantVO.getMenuItems());
+        restaurantVO.getCuisines().forEach(cuisine -> cuisineService.addCuisineToRestaurant(savedRestaurant.getId(), cuisine));
+        restaurantVO.getBranches().forEach(branch -> branchService.addBranch(savedRestaurant.getId(), branch));
         return modelMapper.map(savedRestaurant, RestaurantVO.class);
     }
 
@@ -285,7 +288,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return menuItems.stream()
                 .map(menuItem -> {
                     MenuItemsVO menuItemVO = new MenuItemsVO();
-                    menuItemVO.setId(menuItem.getId());
+//                    menuItemVO.setId(menuItem.getId());
                     menuItemVO.setName(menuItem.getName());
                     menuItemVO.setPrice(menuItem.getPrice());
                     menuItemVO.setNonVeg(menuItem.isNonVeg());
@@ -295,8 +298,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void getUserRestaurant(String userId) {
-        restaurantRepository.findByUserId(userId);
+    public List<RestaurantVO> getUserRestaurant(String userId) {
+        List<Restaurant> restaurants = restaurantRepository.findByUserId(userId);
+        return modelMapper.map(restaurants, new TypeToken<List<RestaurantVO>>(){}.getType());
     }
 
 

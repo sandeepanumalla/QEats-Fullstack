@@ -89,7 +89,7 @@ public class OrderServiceTest {
         assertThat(savedOrder.getCustomerId()).isEqualTo("C001");
         assertThat(savedOrder.getRestaurantId()).isEqualTo("R001");
         assertThat(savedOrder.getOrderStatus()).isEqualTo(OrderStatus.PROCESSING);
-        assertThat(savedOrder.getAmount()).isEqualTo(500.0);
+        assertThat(savedOrder.getTotalAmount()).isEqualTo(500.0);
 
         // Verify items
         assertThat(savedOrder.getItems()).hasSize(2);

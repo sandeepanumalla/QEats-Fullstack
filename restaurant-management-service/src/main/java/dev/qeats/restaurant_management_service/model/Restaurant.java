@@ -38,6 +38,7 @@ public class Restaurant extends AbstractEntity{
         RestaurantVO restaurantVO = new RestaurantVO();
         restaurantVO.setId(this.id);
         restaurantVO.setName(this.name);
+        restaurantVO.setUserId(this.userId);
         restaurantVO.setDescription(this.description);
         restaurantVO.setRating(this.rating);
         restaurantVO.setDeliveryFee(this.deliveryFee);

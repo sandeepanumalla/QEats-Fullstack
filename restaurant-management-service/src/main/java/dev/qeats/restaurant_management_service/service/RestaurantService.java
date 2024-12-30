@@ -31,7 +31,7 @@ public interface RestaurantService {
 
     List<MenuItemsVO> addMenuToRestaurant(long restaurantId, List<MenuItemsVO> menuItemsVO);
 
-    void getUserRestaurant(String userId);
+    List<RestaurantVO> getUserRestaurant(String userId);
 
 //    void getRestaurantByCuisine(String cuisine);
 

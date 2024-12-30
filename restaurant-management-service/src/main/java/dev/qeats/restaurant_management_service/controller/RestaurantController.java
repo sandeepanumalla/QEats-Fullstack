@@ -6,6 +6,7 @@ import dev.qeats.restaurant_management_service.responseVO.RestaurantVO;
 import dev.qeats.restaurant_management_service.service.BranchService;
 import dev.qeats.restaurant_management_service.service.RestaurantService;
 import dev.qeats.restaurant_management_service.service.impl.RestaurantServiceImpl;
+import jakarta.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 import static dev.qeats.restaurant_management_service.controller.SortBy.BEST_MATCH;
+
 
 @RestController
 @RequestMapping("/api")
@@ -51,9 +53,9 @@ public class RestaurantController {
         return ResponseEntity.ok().body(restaurants);
     }
 
-    @GetMapping("/user/{userId}/restaurant")
-    public void getUserRestaurant(@RequestParam("userId") String userId) {
-        restaurantService.getUserRestaurant(userId);
+    @GetMapping("/restaurant/user/{userId}")
+    public ResponseEntity<List<RestaurantVO>> getUserRestaurant(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok(restaurantService.getUserRestaurant(userId));
     }
 
     // POST /api/restaurant
@@ -100,6 +102,7 @@ public class RestaurantController {
     // webhook /restaurant/orders
     @PostMapping("/restaurant/orders")
     public ResponseEntity<String> updateOrders(@RequestBody Flux<Restaurant> body) {
+
         return ResponseEntity.ok("Orders updated");
     }
 

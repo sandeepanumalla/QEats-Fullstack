@@ -8,6 +8,7 @@ import lombok.Setter;
 public class CartItemResponseVO {
     private long cartItemId;
     private String productId;
+    private String restaurantId;
     private String productName;
     private String productDescription;
     private int quantity;
