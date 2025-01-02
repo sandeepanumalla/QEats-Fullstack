@@ -14,7 +14,7 @@ An end-to-end food ordering application inspired by platforms like Swiggy, desig
 7. [API Endpoints](#api-endpoints)
 8. [Future Enhancements](#future-enhancements)
 9. [Contributing](#contributing)
-10. [License](#license)
+10. [Screenshots](#license)
 11. [Acknowledgments](#acknowledgments)
 
 ---
@@ -44,6 +44,8 @@ The project was developed as part of my personal learning journey to explore mod
 ### **Frontend**:
 - React.js
 - Axios (for API calls)
+- Redux for state management
+- Material UI
 
 ### **Backend**:
 - Spring Boot
@@ -138,7 +140,6 @@ Follow these instructions to set up the project on your local machine for develo
 ---
 
 ## **Future Enhancements**
-- Implement real-time notifications for order updates.
 - Add user reviews and ratings for restaurants.
 - Optimize for mobile-first experience.
 
@@ -154,10 +155,78 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## **License**
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## **Screenshots**
+
+### **1. Home Page**
+*Description*: Displays the main landing page for the application. Users can search for cuisines or restaurants.
+
+![Home Page](screenshots/homepage.png)
 
 ---
+
+### **2. Login Page**
+*Description*: Allows users to authenticate using OAuth2 or login credentials.
+
+![Login Page](screenshots/login.png)
+
+---
+
+### **3. Post-Login Home Page**
+*Description*: Displays the home page after user login, with additional options like profile and logout.
+
+![Post-Login Home Page](screenshots/homepage_post_login.png)
+
+---
+
+### **4. Search Results Page**
+*Description*: Displays search results based on user queries, including filters by cuisine.
+
+![Search Results Page](screenshots/search_page.png)
+
+---
+
+### **5. Restaurant Menu Page**
+*Description*: Displays the selected restaurant's menu with options to add items to the cart.
+
+![Restaurant Menu Page](screenshots/menu_page.png)
+
+---
+
+### **6. Active Orders**
+*Description*: Displays the list of active orders for the user.
+
+![Active Orders](screenshots/active_orders.png)
+
+---
+
+### **7. Checkout Process**
+*Description*: Shows the checkout process where users confirm their delivery details.
+
+![Checkout Process](screenshots/checkout_process.png)
+
+---
+
+### **8. Payment Integration**
+*Description*: Secure payment page with PayPal integration.
+
+![Payment Integration](screenshots/payment.png)
+
+---
+
+### **9. Manage Restaurant Dashboard**
+*Description*: Dashboard for restaurant owners to manage their listings and view active orders.
+
+![Manage Restaurant Dashboard](screenshots/manage_restaurant.png)
+
+---
+
+### **10. User Profile Page**
+*Description*: Allows users to view and update their profile information.
+
+![User Profile Page](screenshots/user_profile.png)
+
+---
+
 
 ## **Acknowledgments**
 - Inspiration: Swiggy, Zomato
